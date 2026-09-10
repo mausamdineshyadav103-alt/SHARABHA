@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>VAJRA DEFENSE — Next-Generation Aerospace & Defense Autonomous Systems</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Anybody:wght@400;500;700&family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,400;0,600;0,700;1,700&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet"/>
+
+  <!-- Leaflet CSS for Map Modal -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class", 
+      theme: {
+        extend: {
+          colors: {
+            "surface-container-highest": "#303539", 
+            "on-surface": "#dee3e7", 
+            "on-secondary": "#063447", 
+            "surface-container-lowest": "#0a0f12", 
+            "surface-container-high": "#252b2e", 
+            "surface-bright": "#353a3d", 
+            "secondary-container": "#244b5f", 
+            "tertiary-container": "#ea9b30", 
+            "surface-tint": "#76d1ff", 
+            "tertiary-fixed-dim": "#ffb964", 
+            "secondary-fixed-dim": "#a5cce3", 
+            "on-tertiary-fixed": "#2b1700", 
+            "on-secondary-fixed": "#001e2c", 
+            "primary-fixed-dim": "#76d1ff", 
+            "on-secondary-container": "#94bad1", 
+            "surface-dim": "#0f1417", 
+            "on-tertiary-fixed-variant": "#663e00", 
+            tertiary: "#ffba66", 
+            "on-background": "#dee3e7", 
+            "primary-fixed": "#c2e8ff", 
+            "on-primary-fixed-variant": "#004d67", 
+            "inverse-primary": "#006688", 
+            "error-container": "#93000a", 
+            primary: "#7ad2ff", 
+            "surface-container": "#1b2024", 
+            "surface-container-low": "#171c20", 
+            "on-primary-container": "#00465e", 
+            "secondary-fixed": "#c2e8ff", 
+            "on-tertiary": "#472a00", 
+            error: "#ffb4ab", 
+            "on-primary": "#003548", 
+            "on-tertiary-container": "#5d3800", 
+            "on-error-container": "#ffdad6", 
+            secondary: "#a5cce3", 
+            "on-secondary-fixed-variant": "#244b5f", 
+            "on-error": "#690005", 
+            "outline-variant": "#3e484f", 
+            "surface-variant": "#303539", 
+            "on-primary-fixed": "#001e2c", 
+            surface: "#0f1417", 
+            "primary-container": "#3bb8ed", 
+            background: "#0f1417", 
+            "tertiary-fixed": "#ffddb9", 
+            "inverse-surface": "#dee3e7", 
+            "on-surface-variant": "#bdc8d0", 
+            outline: "#87929a", 
+            "inverse-on-surface": "#2c3135"
+          }, 
+          borderRadius: {
+            DEFAULT: "0.125rem", lg: "0.25rem", xl: "0.5rem", full: "0.75rem"
+          }, 
+          spacing: {
+            "section-stack-lg": "8rem", "section-stack-md": "5rem", "spec-row-gap": "0.75rem", "gutter-mobile": "1rem", "grid-margin-desktop": "4rem", "grid-margin-mobile": "1.25rem", "grid-margin-tablet": "2rem", "card-pad-lg": "2rem", "gutter-desktop": "1.5rem", "card-pad-sm": "1rem"
+          }, 
+          fontFamily: {
+            "label-micro": ["JetBrains Mono"], "stat-value": ["Space Grotesk"], "headline-md": ["Space Grotesk"], "spec-code": ["JetBrains Mono"], "headline-lg": ["Space Grotesk"], "body-lg": ["Inter"], "headline-xl-mobile": ["Space Grotesk"], "display-hero-mobile": ["Space Grotesk"], "display-hero": ["Space Grotesk"], "body-md": ["Inter"], "body-sm": ["Inter"], "label-caps": ["JetBrains Mono"], "headline-xl": ["Space Grotesk"], headline: ["Anybody"], display: ["Anybody"], body: ["Inter"], label: ["Jetbrains Mono"]
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    @layer base {
+      html, body { margin:0; padding:0; }
+      body { overscroll-behavior:none; }
+      main > :first-child { margin-top:0!important; }
+      main > :last-child { margin-bottom:0!important; }
+    }
+    ::-webkit-scrollbar { display:none; }
+
+    @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;0,700;1,700&family=Space+Grotesk:wght@500;700;800&family=Orbitron:wght@600;800;900&display=swap');
+    h1, h2, h3, h4, .font-brand-machina {
+      font-family: 'Neue Machina', 'Chakra Petch', 'Space Grotesk', system-ui, -apple-system, sans-serif !important;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+    }
+
+    .glass-panel {
+      background: rgba(23, 28, 32, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    .left-column { display: flex; flex-direction: column; gap: 20px; }
+    .contact-pill-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px 6px 10px; border-radius: 9999px; background: rgba(122, 210, 255, 0.08); border: 1px solid rgba(122, 210, 255, 0.2); width: fit-content; }
+    .contact-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(2.5rem, 4.5vw, 3.5rem); font-weight: 800; line-height: 1.15; letter-spacing: -0.02em; color: #ffffff; text-transform: uppercase; }
+    .contact-subtitle { font-size: 1.05rem; line-height: 1.6; color: #bdc8d0; max-width: 480px; margin-bottom: 8px; }
+
+    .office-status-bar { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; border-radius: 12px; font-size: 0.825rem; background: rgba(10, 15, 18, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); color: #bdc8d0; }
+    .status-indicator { display: flex; align-items: center; gap: 8px; }
+    .pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: #7ad2ff; }
+
+    .contact-cards-stack { display: flex; flex-direction: column; gap: 16px; margin-top: 8px; }
+    .info-card { display: flex; align-items: center; justify-content: space-between; padding: 18px 22px; border-radius: 16px; cursor: pointer; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); outline: none; }
+    .info-card:hover { transform: translateY(-2px); background: rgba(32, 40, 46, 0.9); border-color: rgba(122, 210, 255, 0.35); }
+    .card-left-group { display: flex; align-items: center; gap: 16px; }
+    .card-icon-box { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 12px; background: rgba(122, 210, 255, 0.08); border: 1px solid rgba(122, 210, 255, 0.2); color: #7ad2ff; }
+    .card-details { display: flex; flex-direction: column; gap: 2px; }
+    .card-arrow-btn { display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50%; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.12); color: #bdc8d0; cursor: pointer; transition: all 0.2s ease; }
+    .info-card:hover .card-arrow-btn { background: rgba(122, 210, 255, 0.2); border-color: rgba(122, 210, 255, 0.4); color: #ffffff; }
+
+    .form-glass-card { padding: 36px 32px; border-radius: 20px; background: rgba(16, 21, 25, 0.85); border: 1px solid rgba(255, 255, 255, 0.14); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6); }
+    .contact-form { display: flex; flex-direction: column; gap: 20px; }
+    .topic-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+    .topic-pill { padding: 6px 14px; border-radius: 9999px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: #bdc8d0; font-size: 0.78rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
+    .topic-pill:hover { background: rgba(255, 255, 255, 0.1); color: #ffffff; }
+    .topic-pill.active { background: rgba(122, 210, 255, 0.15); border-color: rgba(122, 210, 255, 0.4); color: #7ad2ff; }
+
+    .input-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-input { width: 100%; padding: 14px 18px; border-radius: 10px; background: rgba(10, 15, 18, 0.85); border: 1px solid rgba(255, 255, 255, 0.12); color: #ffffff; font-family: 'Inter', sans-serif; font-size: 0.95rem; outline: none; transition: border-color 0.2s ease; }
+    .form-input:focus { border-color: #7ad2ff; }
+    .form-textarea { resize: vertical; min-height: 130px; }
+    .input-error-msg { font-size: 0.75rem; color: #ff5252; display: none; }
+    .input-group.invalid .form-input { border-color: #ff5252; }
+    .input-group.invalid .input-error-msg { display: block; }
+
+    .btn-submit { width: 100%; padding: 16px 24px; border-radius: 6px; background: #7ad2ff; color: #001e2c; border: none; font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.12em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 8px; transition: all 0.2s ease; }
+    .btn-submit:hover { background: #c2e8ff; }
+
+    .modal-backdrop { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(12px); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .modal-content { width: 100%; max-width: 680px; border-radius: 16px; padding: 24px; background: rgba(18, 24, 28, 0.95); border: 1px solid rgba(255, 255, 255, 0.15); display: flex; flex-direction: column; gap: 16px; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8); }
+    .map-container { width: 100%; height: 340px; border-radius: 10px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.1); }
+    .leaflet-tile-pane { filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3); }
+
+    .toast-container { position: fixed; bottom: 24px; right: 24px; display: flex; flex-direction: column; gap: 10px; z-index: 2000; }
+    .toast { display: flex; align-items: center; gap: 12px; padding: 12px 18px; border-radius: 10px; background: rgba(18, 24, 28, 0.95); border: 1px solid rgba(122, 210, 255, 0.4); color: #ffffff; font-size: 0.875rem; }
+    @media (max-width: 900px) { .contact-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body class="bg-background font-body-md text-on-surface antialiased">
+
+<!-- Fixed Header Nav -->
+<header class="fixed top-0 left-0 right-0 z-50 w-full bg-surface-container-lowest/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.4)]" style="background: rgba(12, 14, 21, 0.22); backdrop-filter: blur(24px); border-bottom: 1px solid rgba(255, 255, 255, 0.18); box-shadow: rgba(0, 0, 0, 0.25) 0px 8px 32px;">
+  <div class="h-16 w-full px-gutter-mobile md:px-grid-margin-tablet lg:px-grid-margin-desktop flex items-center justify-between gap-4">
+    <div class="flex items-center gap-3 shrink-0">
+      <img alt="vajra-defense-logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VqCStJiaMCacm_uXUNeRgK56TXKFXL6iCJ5qVbe4pcDVlUG5j5g0iEAS2zzhf7VWHRZlF6vsGtr014NXISmb0DTnz6abXpqkY-MTnwgJxs39epjoMLQH7FcYlDEXliFI5a8qnou-pP1z7Gi1TdlzOyjSAWRnYwYmT1F_Q0jFwfXUa0kPoQpmVWKJ-TGj9CK1UzLJyPDEiXV5Gccg7Y9d4CDVe2drWXH4AnpfeFSaGMxEX2ypSD8Ovdwqow2uDEI3DhtliaZLZLeyY"/>
+      <span class="font-headline-md text-body-md tracking-[0.18em] font-bold text-on-surface uppercase font-brand-machina">VAJRA DEFENSE</span>
+      <span class="hidden xl:inline-block font-label-micro text-label-micro text-outline px-1.5 py-0.5 bg-surface-container-high rounded">DEF-SPEC // REV.4</span>
+    </div>
+    <nav class="hidden lg:flex items-center gap-1 xl:gap-2">
+      <a class="px-3 py-1.5 rounded transition-all bg-surface-container-high text-primary font-semibold" href="#hero">Home</a>
+      <a class="px-3 py-1.5 rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface font-label-caps text-label-caps transition-all" href="#products">About</a>
+      <a class="px-3 py-1.5 rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface font-label-caps text-label-caps transition-all" href="#products">Products</a>
+      <a class="px-3 py-1.5 rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface font-label-caps text-label-caps transition-all" href="#hydrogen">Technology</a>
+      <a class="px-3 py-1.5 rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface font-label-caps text-label-caps transition-all" href="#field-ops">Field Ops</a>
+      <a class="px-3 py-1.5 rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface font-label-caps text-label-caps transition-all" href="#contact">Contact</a>
+    </nav>
+    <div class="flex items-center gap-3 shrink-0">
+      <div class="hidden sm:flex items-center gap-2 px-2.5 py-1 bg-surface-container-high/60 rounded">
+        <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+        <span class="font-label-micro text-label-micro text-primary tracking-widest uppercase">SYS: ACTIVE // PEM ARCH-01</span>
+      </div>
+      <a class="inline-flex items-center justify-center px-3.5 py-1.5 bg-primary text-on-primary font-label-caps text-label-caps font-semibold rounded hover:bg-primary-fixed hover:text-on-primary-fixed shadow-[0_0_12px_rgba(242,202,80,0.25)] transition-all uppercase" href="#contact">Request Briefing</a>
+      <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0">
+        <span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="w-full pt-16 bg-background">
+  <div class="flex flex-col w-full">
+
+    <!-- SECTION 1: HERO -->
+    <section id="hero" class="relative w-full min-h-[983px] flex flex-col justify-between overflow-hidden -mt-16 pt-24 pb-12 px-gutter-mobile md:px-grid-margin-tablet lg:px-grid-margin-desktop">
+      <div class="absolute inset-0 bg-cover bg-center z-0 scale-[1.02] transition-transform duration-1000 ease-out" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD5VG-cy0X_89WTM4gD4IpKT9QugHG4gU6sMdfIEkFCeS1QctZUPxp6TaJSTfFu81pFXYOwzOYcCtzWAWm45GYWlG0R6SUBvTPwX1qnP9T_w3csucANyWw6Ib6hGtosJ3DPZn7-myX1iihT2dWK3OLY_HU19s07Z2JCY7qa4kwMk88OxT7I3tipcCmHdbdSPFtBg6-5bbfgUaPDiOTHa9TjrsU7ky1DoF7vwrjNAD562YhMi5ztUdwaL6fgqXtFxrevfko");'></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-surface-container-lowest/80 via-surface-container-lowest/50 to-transparent z-[1]"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/90 via-transparent to-surface-container-lowest/40 z-[1]"></div>
+      <div class="absolute top-1/3 left-1/4 w-96 h-96 rounded-full bg-primary/10 blur-[130px] pointer-events-none z-[1]"></div>
+
+      <div class="relative z-10 w-full flex flex-wrap items-center justify-between gap-4 pt-4">
+        <div class="flex items-center gap-3 bg-surface-container-lowest/80 backdrop-blur-md px-3 py-1.5 rounded shadow-sm">
+          <span class="inline-block w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+          <span class="font-label-micro text-label-micro text-primary uppercase">SYS.ID: VJR-AERO-01 // TPE331 ARCHITECTURE</span>
+          <span class="text-outline font-label-micro text-label-micro">|</span>
+          <span class="font-label-micro text-label-micro text-on-surface-variant">STAGE: FLIGHT QUALIFIED</span>
+        </div>
+        <div class="hidden md:flex items-center gap-6 font-label-caps text-label-caps text-on-surface-variant bg-surface-container-lowest/60 backdrop-blur-md px-4 py-1.5 rounded">
+          <span>FREQ: 14.85 GHZ</span>
+          <span class="text-outline">/</span>
+          <span>SECURITY: ORCON-V</span>
+          <span class="text-outline">/</span>
+          <span class="text-primary font-bold">GRID: SEC-09-ALPHA</span>
+        </div>
+      </div>
+
+      <div class="relative z-10 my-auto max-w-4xl py-12">
+        <div class="inline-flex items-center gap-2.5 px-3 py-1 bg-surface-container-high/70 backdrop-blur-md rounded border border-primary/30 shadow-md mb-4">
+          <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+          <span class="font-label-caps text-label-caps text-primary uppercase font-bold tracking-[0.2em]">POWERING NEXT-GEN // DEEP AEROSPACE • DEFENSE AUTONOMY</span>
+        </div>
+        <h1 class="font-headline-xl text-stat-value md:text-[56px] text-on-surface font-bold tracking-tight uppercase leading-none" style='font-family: Syne, Outfit, "Space Grotesk", sans-serif; font-weight: 900; letter-spacing: -0.03em;'>NEXT-GENERATION HYBRID TURBINE PROPULSION</h1>
+        <p class="font-body-lg text-body-lg text-secondary max-w-2xl mt-4 font-normal leading-relaxed">Architecting flight-qualified cryogenic PEM hydrogen powerplants and resilient high-density aerospace systems for sovereign defense autonomy.</p>
+        <div class="flex flex-wrap items-center gap-4 mt-8">
+          <a class="inline-flex items-center justify-center px-5 py-3 bg-primary text-on-primary font-label-caps text-label-caps font-bold tracking-[0.14em] uppercase rounded shadow-lg hover:bg-primary-fixed hover:text-on-primary-fixed transition-all gap-2" href="#products">
+            <span class="material-symbols-outlined text-[18px]">rocket_launch</span>
+            <span>EXPLORE AIR SYSTEMS</span>
+          </a>
+          <a class="inline-flex items-center justify-center px-5 py-3 bg-surface-container-high/80 text-on-surface hover:bg-surface-container-high font-label-caps text-label-caps font-semibold tracking-wider uppercase rounded transition-all gap-2 border border-outline-variant/50" href="#contact">
+            <span class="material-symbols-outlined text-[18px]">terminal</span>
+            <span>TRANSMIT RFQ</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="relative z-10 w-full grid grid-cols-2 md:grid-cols-4 gap-3 pt-6">
+        <div class="p-4 rounded shadow-lg flex flex-col justify-between group transition-all" style="background: rgba(12, 14, 21, 0.2); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.18); box-shadow: rgba(0, 0, 0, 0.37) 0px 8px 32px 0px;">
+          <div class="flex items-center justify-between mb-2">
+            <span class="font-label-micro text-label-micro text-outline uppercase tracking-widest">// SPEC.01</span>
+            <span class="material-symbols-outlined text-primary text-[16px]">compress</span>
+          </div>
+          <div class="font-stat-value text-stat-value text-on-surface font-bold tracking-tight">17%</div>
+          <div class="font-label-caps text-label-caps text-secondary font-semibold uppercase mt-1">COMPRESSOR COST REDUCTION</div>
+        </div>
+        <div class="p-4 rounded shadow-lg flex flex-col justify-between group transition-all" style="background: rgba(58, 111, 236, 0.08); backdrop-filter: blur(20px); border: 1px solid rgba(179, 197, 255, 0.3); box-shadow: rgba(18, 85, 210, 0.2) 0px 8px 32px 0px;">
+          <div class="flex items-center justify-between mb-2">
+            <span class="font-label-micro text-label-micro text-primary uppercase tracking-widest">// SPEC.02</span>
+            <span class="material-symbols-outlined text-primary text-[16px]">bolt</span>
+          </div>
+          <div class="font-stat-value text-stat-value text-primary font-bold tracking-tight">PEM</div>
+          <div class="font-label-caps text-label-caps text-secondary font-semibold uppercase mt-1">HYDROGEN ARCHITECTURE</div>
+        </div>
+        <div class="p-4 rounded shadow-lg flex flex-col justify-between group transition-all" style="background: rgba(12, 14, 21, 0.2); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.18); box-shadow: rgba(0, 0, 0, 0.37) 0px 8px 32px 0px;">
+          <div class="flex items-center justify-between mb-2">
+            <span class="font-label-micro text-label-micro text-outline uppercase tracking-widest">// SPEC.03</span>
+            <span class="material-symbols-outlined text-primary text-[16px]">cyclone</span>
+          </div>
+          <div class="font-stat-value text-stat-value text-on-surface font-bold tracking-tight">TPE331</div>
+          <div class="font-label-caps text-label-caps text-secondary font-semibold uppercase mt-1">ENGINE CLASS CAPABILITY</div>
+        </div>
+        <div class="p-4 rounded shadow-lg flex flex-col justify-between group transition-all" style="background: rgba(12, 14, 21, 0.2); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.18); box-shadow: rgba(0, 0, 0, 0.37) 0px 8px 32px 0px;">
+          <div class="flex items-center justify-between mb-2">
+            <span class="font-label-micro text-label-micro text-outline uppercase tracking-widest">// SPEC.04</span>
+            <span class="material-symbols-outlined text-primary text-[16px]">speed</span>
+          </div>
+          <div class="font-stat-value text-stat-value text-primary font-bold tracking-tight">3.4x</div>
+          <div class="font-label-caps text-label-caps text-secondary font-semibold uppercase mt-1">POWER-TO-WEIGHT INDEX</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: AIR CAPABILITY -->
+    <section class="relative w-full py-section-stack-md px-gutter-mobile md:px-grid-margin-tablet lg:px-grid-margin-desktop bg-surface-container-low overflow-hidden" id="products">
+      <div class="absolute inset-0 bg-cover bg-center z-0" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuADgrTxUpQH7qsRyLBwP6r1OVs2867YUeQIuC57jwSbw9dySAMmRk1pX_vZBFs_DAeSDlYL4s-bZ3wgdOzszKNh5VNfqIK88fp8Z_z7kt7Liqrk-6NXAETHC17KgcO2BjqWQ0et1A73yNOR0HFJxn5A8B63d-ufpq-7Qlx2gk6KIpZNDX8DJ3SZ1xVPVK7DHAVfzMqkKsJr2LDXLW5tkCBXyNd3nF8gVy_LHbjanibDnEcYfAlGyNn9teF7lMToe8B-RJY");'></div>
+      <div class="absolute inset-0 bg-gradient-to-tr from-surface-container-lowest/80 via-surface-container-lowest/40 to-surface-dim/30 z-[1]"></div>
+      <div class="relative z-10 w-full max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+          <div>
+            <div class="flex items-center gap-2 font-label-micro text-label-micro text-primary uppercase tracking-[0.2em] mb-2">
+              <span class="w-2 h-0.5 bg-primary"></span>
+              <span>DIVISION 02 // AIRBORNE MATERIEL</span>
+            </div>
+            <h2 class="font-headline-xl text-headline-xl uppercase text-on-surface font-bold tracking-tight" style='font-family: Syne, Outfit, "Space Grotesk", sans-serif; font-weight: 800; letter-spacing: -0.02em;'>PERSISTENT AIR SYSTEMS</h2>
+            <p class="font-body-lg text-body-lg text-secondary max-w-xl mt-2 font-normal">Uncrewed Long-Range Airborne Reconnaissance &amp; Strike Power powered by integrated hybrid propulsion.</p>
+          </div>
+          <div class="bg-surface-container-high/70 backdrop-blur-md p-3.5 rounded flex items-center gap-4" style="background: rgba(12, 14, 21, 0.22); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.18); box-shadow: rgba(0, 0, 0, 0.3) 0px 4px 20px;">
+            <div class="text-right">
+              <div class="font-label-micro text-label-micro text-outline uppercase">TELEMETRY LINK</div>
+              <div class="font-spec-code text-spec-code text-primary font-bold">MIL-LINK 24B ACTV</div>
+            </div>
+            <span class="material-symbols-outlined text-primary text-[28px]">radar</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter-desktop">
+          <div class="md:col-span-4 grid grid-cols-2 gap-3">
+            <div class="p-5 rounded flex flex-col justify-between shadow-lg transition-all" style="background: rgba(12, 14, 21, 0.2); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.18); box-shadow: rgba(0, 0, 0, 0.35) 0px 8px 24px;">
+              <span class="font-label-micro text-label-micro text-outline uppercase">// ENDURANCE</span>
+              <div class="my-2">
+                <span class="text-stat-value text-on-surface" style='font-family: Outfit, "Space Grotesk", sans-serif; font-weight: 800; letter-spacing: -0.03em;'>42</span>
+                <span class="font-label-caps text-label-caps text-primary uppercase ml-1 font-bold">HRS</span>
+              </div>
+              <span class="font-label-caps text-label-caps text-on-secondary-container">NON-STOP LOITER</span>
+            </div>
+            <div class="p-5 rounded flex flex-col justify-between shadow-lg transition-all" style="background: rgba(12, 14, 21, 0.2); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.18); box-shadow: rgba(0, 0, 0, 0.35) 0px 8px 24px;">
+              <span class="font-label-micro text-label-micro text-outline uppercase">// COMBAT RADIUS</span>
+              <div class="my-2">
+                <span class="text-stat-value text-primary" style='font-family: Outfit, "Space Grotesk", sans-serif; font-weight: 800; letter-spacing: -0.03em;'>1,850</span>
+                <span class="font-label-caps text-label-caps text-on-surface-variant uppercase ml-1 font-bold">KM</span>
+              </div>
+              <span class="font-label-caps text-label-caps text-on-secondary-container">THEATER PENETRATION</span>
+            </div>
+            <div class="p-5 rounded flex flex-col justify-between shadow-lg transition-all" style="background: rgba(12, 14, 21, 0.2); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.18); box-shadow: rgba(0, 0, 0, 0.35) 0px 8px 24px;">
+              <span class="font-label-micro text-label-micro text-outline uppercase">// HARDPOINT LIFT</span>
+              <div class="my-2">
+                <span class="text-stat-value text-on-surface" style='font-family: Outfit, "Space Grotesk", sans-serif; font-weight: 800; letter-spacing: -0.03em;'>450</span>
+                <span class="font-label-caps text-label-caps text-primary uppercase ml-1 font-bold">KG</span>
+              </div>
+              <span class="font-label-caps text-label-caps text-on-secondary-container">PAYLOAD CAPACITY</span>
+            </div>
+            <div class="p-5 rounded flex flex-col justify-between shadow-lg transition-all" style="background: rgba(12, 14, 21, 0.2); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.18); box-shadow: rgba(0, 0, 0, 0.35) 0px 8px 24px;">
+              <span class="font-label-micro text-label-micro text-outline uppercase">// CEILING</span>
+              <div class="my-2">
+                <span class="text-stat-value text-primary" style='font-family: Outfit, "Space Grotesk", sans-serif; font-weight: 800; letter-spacing: -0.03em;'>FL450</span>
+              </div>
+              <span class="font-label-caps text-label-caps text-on-secondary-container">ABOVE WEATHER OPS</span>
+            </div>
+          </div>
+
+          <div class="md:col-span-8 bg-surface-container-lowest/90 backdrop-blur-xl p-card-pad-lg rounded shadow-xl flex flex-col justify-between" style="background: rgba(12, 14, 21, 0.24); backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.18); box-shadow: rgba(0, 0, 0, 0.45) 0px 16px 40px;">
+            <div>
+              <div class="flex items-center justify-between pb-4 mb-4 bg-surface-container/50 px-4 py-3 rounded">
+                <div class="flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-primary"></span>
+                  <span class="font-label-caps text-label-caps text-on-surface font-semibold uppercase">AIRFRAME SPEC // VJR-STRIKE-MKIV</span>
+                </div>
+                <span class="font-spec-code text-spec-code text-primary">ALL-WEATHER ENVELOPE</span>
+              </div>
+              <p class="font-body-md text-body-md text-on-surface-variant mb-6 leading-relaxed">Equipped with our patented zero-icing thermal acoustic intake system and dual-cycle hydrogen-electric turbine core. The airframe operates continuously in high-threat contested maritime and mountainous frontiers with an ultra-low radar thermal cross-section.</p>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                <div class="bg-surface-container p-3.5 rounded">
+                  <span class="material-symbols-outlined text-primary text-[20px] mb-1">ac_unit</span>
+                  <div class="font-headline-md text-body-md text-on-surface font-bold uppercase">Zero-Icing Core</div>
+                  <p class="font-body-sm text-body-sm text-secondary mt-1">Exothermic regenerative heat coils prevent ice accretion at sub-zero flight levels.</p>
+                </div>
+                <div class="bg-surface-container p-3.5 rounded">
+                  <span class="material-symbols-outlined text-primary text-[20px] mb-1">electric_bolt</span>
+                  <div class="font-headline-md text-body-md text-on-surface font-bold uppercase">Hybrid PEM Gen</div>
+                  <p class="font-body-sm text-body-sm text-secondary mt-1">Direct electric bus augmentation delivering instant burst thrust dynamics.</p>
+                </div>
+                <div class="bg-surface-container p-3.5 rounded">
+                  <span class="material-symbols-outlined text-primary text-[20px] mb-1">security</span>
+                  <div class="font-headline-md text-body-md text-on-surface font-bold uppercase">EW Hardened</div>
+                  <p class="font-body-sm text-body-sm text-secondary mt-1">Optically isolated fly-by-light lines resilient to intense RF jamming sweeps.</p>
+                </div>
+              </div>
+            </div>
+            <div class="bg-surface-container-high/60 p-4 rounded space-y-3">
+              <div class="flex items-center justify-between font-label-micro text-label-micro">
+                <span class="text-on-surface uppercase">SUBSYSTEM AVAILABILITY MATRIX</span>
+                <span class="text-primary font-bold">99.98% OPERATIONAL INTEGRITY</span>
+              </div>
+              <div class="w-full bg-surface-container-lowest h-2 rounded overflow-hidden flex gap-1 p-0.5">
+                <div class="h-full bg-primary rounded" style="width: 45%;"></div>
+                <div class="h-full bg-primary-fixed rounded" style="width: 35%;"></div>
+                <div class="h-full bg-secondary rounded" style="width: 18%;"></div>
+              </div>
+              <div class="flex justify-between font-label-micro text-label-micro text-outline">
+                <span>TURBINE: NOMINAL</span>
+                <span>AVIONICS: LOCK</span>
+                <span>CRYOGENIC CELL: STABLE</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: FIELD LOGISTICS -->
+    <section class="relative w-full py-section-stack-md px-gutter-mobile md:px-grid-margin-tablet lg:px-grid-margin-desktop bg-surface-container-lowest overflow-hidden" id="field-ops">
+      <div class="absolute inset-0 bg-cover bg-center z-0" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDwtQH1qbtbzfiCGZwDa-S4_3zRhsYNLLQZXfP_W6_rejKCF50BILkJfgSG7FJcpZWJaR5tWYQnplqlCxaDmHiIGsQxEEu3J6xnPexJ2eo_3DWjrFojAuHMuy2W__GZwMU5fc3skXkLoNizXtFYBhxhaQQd3V8USH40-ctdIXJklNYJM6vTYbNiTIGEYZeDskWsnD3aqqnGOEcK1lQxT0AV_gl8vZhs402rIrTLvd7iVYwrwk6UoF6x6jCBmrkhgyu9-4A");'></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-surface-container-lowest/85 via-surface-container-lowest/40 to-surface-container-lowest/20 z-[1]"></div>
+      <div class="relative z-10 w-full max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter-desktop items-center">
+          <div class="lg:col-span-7 space-y-6">
+            <div class="inline-flex items-center gap-2 px-3 py-1 bg-surface-container-high rounded text-primary font-label-caps text-label-caps uppercase">
+              <span class="material-symbols-outlined text-[15px]">local_shipping</span>
+              <span>AUSTERE EXPEDITIONARY LOGISTICS</span>
+            </div>
+            <h2 class="font-headline-xl text-headline-xl uppercase text-on-surface font-bold tracking-tight leading-tight" style='font-family: Syne, Outfit, "Space Grotesk", sans-serif; font-weight: 800; letter-spacing: -0.02em;'>BUILT FOR ZERO-INFRASTRUCTURE FRONTLINES</h2>
+            <p class="font-body-lg text-body-lg text-secondary max-w-2xl leading-relaxed">Designed for expeditionary warfare, contested resupply corridors, and zero-infrastructure theater maintenance. Our propulsion powerpacks remove heavy air base footprints through decentralized logistics.</p>
+            <p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">Vajra power plants eliminate complex calibration benches. Every turbine module is sealed in a titanium-sheathed enclosure capable of withstanding particulate storms, desert heat sinks (+55°C), and sub-polar cold starts (-40°C) with zero auxiliary pre-heaters.</p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
+              <div class="p-4 rounded shadow-md" style="background: rgba(12, 14, 21, 0.22); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.18); box-shadow: rgba(0, 0, 0, 0.35) 0px 8px 24px;">
+                <div class="font-label-micro text-label-micro text-outline uppercase mb-1">STANDARD</div>
+                <div class="text-headline-md text-primary" style='font-family: Outfit, "Space Grotesk", sans-serif; font-weight: 800; letter-spacing: -0.02em;'>MIL-STD-810H</div>
+                <div class="font-label-caps text-label-caps text-on-surface-variant uppercase mt-1">RUGGED ENVIRONMENT SPEC</div>
+              </div>
+              <div class="p-4 rounded shadow-md" style="background: rgba(12, 14, 21, 0.22); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.18); box-shadow: rgba(0, 0, 0, 0.35) 0px 8px 24px;">
+                <div class="font-label-micro text-label-micro text-outline uppercase mb-1">UPTIME RECORD</div>
+                <div class="text-headline-md text-on-surface" style='font-family: Outfit, "Space Grotesk", sans-serif; font-weight: 800; letter-spacing: -0.02em;'>99.4%</div>
+                <div class="font-label-caps text-label-caps text-on-surface-variant uppercase mt-1">MISSION RELIABILITY RATE</div>
+              </div>
+              <div class="p-4 rounded shadow-md" style="background: rgba(12, 14, 21, 0.22); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.18); box-shadow: rgba(0, 0, 0, 0.35) 0px 8px 24px;">
+                <div class="font-label-micro text-label-micro text-outline uppercase mb-1">DEPOT SPEED</div>
+                <div class="text-headline-md text-primary" style='font-family: Outfit, "Space Grotesk", sans-serif; font-weight: 800; letter-spacing: -0.02em;'>15 MIN</div>
+                <div class="font-label-caps text-label-caps text-on-surface-variant uppercase mt-1">HOT-SWAP ENGINE TURNOVER</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5 bg-surface-container-high/70 backdrop-blur-xl p-card-pad-lg rounded shadow-2xl" style="background: rgba(12, 14, 21, 0.24); backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.18); box-shadow: rgba(0, 0, 0, 0.4) 0px 16px 40px;">
+            <div class="flex items-center justify-between mb-6">
+              <span class="font-label-caps text-label-caps text-on-surface font-bold uppercase tracking-wider">MODULAR EXPEDITIONARY PROTOCOL</span>
+              <span class="font-spec-code text-spec-code text-primary">FIELD-DEPOT 04</span>
+            </div>
+            <div class="space-y-4">
+              <div class="flex items-start gap-4 p-3 bg-surface-container-lowest/80 rounded">
+                <div class="w-8 h-8 rounded bg-primary/20 flex items-center justify-center text-primary font-spec-code text-spec-code shrink-0">01</div>
+                <div>
+                  <div class="font-headline-md text-body-md text-on-surface font-semibold uppercase">Tool-Free Quick Coupling</div>
+                  <div class="font-body-sm text-body-sm text-secondary mt-0.5">Self-sealing cryogenic fuel dry-break connections guarantee zero flash leakage during rapid turnaround.</div>
+                </div>
+              </div>
+              <div class="flex items-start gap-4 p-3 bg-surface-container-lowest/80 rounded">
+                <div class="w-8 h-8 rounded bg-primary/20 flex items-center justify-center text-primary font-spec-code text-spec-code shrink-0">02</div>
+                <div>
+                  <div class="font-headline-md text-body-md text-on-surface font-semibold uppercase">On-Chassis Diagnostics</div>
+                  <div class="font-body-sm text-body-sm text-secondary mt-0.5">NFC hardware bus telemetry readable via ruggedized handheld terminals without external power tethering.</div>
+                </div>
+              </div>
+              <div class="flex items-start gap-4 p-3 bg-surface-container-lowest/80 rounded">
+                <div class="w-8 h-8 rounded bg-primary/20 flex items-center justify-center text-primary font-spec-code text-spec-code shrink-0">03</div>
+                <div>
+                  <div class="font-headline-md text-body-md text-on-surface font-semibold uppercase">Universal Convoy Stowage</div>
+                  <div class="font-body-sm text-body-sm text-secondary mt-0.5">Two complete TPE-class propulsion units fit inside standard NATO 463L pallet configurations.</div>
+                </div>
+              </div>
+            </div>
+            <div class="mt-6 pt-4 bg-surface-container-lowest/50 p-3 rounded flex items-center justify-between">
+              <span class="font-label-micro text-label-micro text-outline uppercase">MAINTENANCE CREW REQUIREMENT</span>
+              <span class="font-spec-code text-spec-code text-on-surface font-bold">2 OPERATORS (CREW LEVEL)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: GREEN HYDROGEN -->
+    <section class="relative w-full py-section-stack-md px-gutter-mobile md:px-grid-margin-tablet lg:px-grid-margin-desktop bg-surface-dim overflow-hidden" id="hydrogen">
+      <div class="absolute inset-0 bg-cover bg-center z-0" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDX2G1N59vuyyFAFoJwSQPyvHubA8fe4xRhr9S1FLot8z20VswNpVwKhf3iMvLF9Sa9JwtLoFLNbCxDYUUpx6JAZBMJakm4xqiSKD9DigLSxK1aqh8SybPRkRl6ApdhG5xo1hmeRQR0evzVvLejQt_vzpI3fQH18h0v6rNYSWHnAInDD7STBbzJLSdIBn3si4IWUo_Gn7UhsD9nQZ19v520upe42YR-IJfPOrSLoY_HwshhGFkWT60KnT5GAKxIRzVJ0oY");'></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/85 via-surface-container-lowest/30 to-surface-container-lowest/20 z-[1]"></div>
+      <div class="relative z-10 w-full max-w-7xl mx-auto">
+        <div class="text-center max-w-3xl mx-auto mb-14">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-surface-container-high rounded text-primary font-label-caps text-label-caps uppercase mb-3">
+            <span class="material-symbols-outlined text-[16px]">energy_savings_leaf</span>
+            <span>SOVEREIGN RESILIENCE • CLEAN AEROSPACE</span>
+          </div>
+          <h2 class="font-headline-xl text-headline-xl uppercase text-on-surface font-bold tracking-tight" style='font-family: Syne, Outfit, "Space Grotesk", sans-serif; font-weight: 800; letter-spacing: -0.02em;'>DECARBONIZED DEFENSE // HIGH-DENSITY GREEN HYDROGEN</h2>
+          <p class="font-body-lg text-body-lg text-secondary mt-3">Modular onsite electrolyzer production eliminates vulnerable fossil fuel logistics convoys while scaling true energy independence across tactical hubs.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter-desktop mb-12">
+          <div class="p-card-pad-lg rounded shadow-xl flex flex-col justify-between group transition-all" style="background: rgba(12, 14, 21, 0.2); backdrop-filter: blur(22px); border: 1px solid rgba(255, 255, 255, 0.18); box-shadow: rgba(0, 0, 0, 0.4) 0px 12px 36px;">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="font-label-micro text-label-micro text-outline uppercase">// SPEC 01_PURITY</span>
+                <span class="w-2 h-2 rounded-full bg-primary"></span>
+              </div>
+              <div class="text-stat-value text-primary tracking-tight mb-2" style='font-family: Outfit, "Space Grotesk", sans-serif; font-weight: 800; letter-spacing: -0.03em;'>99.999%</div>
+              <div class="text-headline-md text-on-surface uppercase mb-2" style='font-family: Outfit, "Space Grotesk", sans-serif; font-weight: 700;'>H2 PURITY RATING (PEM)</div>
+              <p class="font-body-sm text-body-sm text-secondary">Ultra-pure electrochemical membrane splitting ensures zero catalyst poisoning and maximizes thermal engine life cycle.</p>
+            </div>
+            <div class="mt-6 pt-4 p-2.5 rounded flex items-center justify-between font-label-micro text-label-micro text-outline" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.12);">
+              <span>MEMBRANE: PERFLUOROSULFONIC ACID</span>
+              <span class="text-primary font-bold">GRADE 5.0</span>
+            </div>
+          </div>
+
+          <div class="p-card-pad-lg rounded shadow-xl flex flex-col justify-between group transition-all" style="background: rgba(12, 14, 21, 0.2); backdrop-filter: blur(22px); border: 1px solid rgba(255, 255, 255, 0.18); box-shadow: rgba(0, 0, 0, 0.4) 0px 12px 36px;">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="font-label-micro text-label-micro text-outline uppercase">// SPEC 02_EMISSIONS</span>
+                <span class="w-2 h-2 rounded-full bg-primary"></span>
+              </div>
+              <div class="text-stat-value text-on-surface tracking-tight mb-2" style='font-family: Outfit, "Space Grotesk", sans-serif; font-weight: 800; letter-spacing: -0.03em;'>0.00 CO2</div>
+              <div class="text-headline-md text-on-surface uppercase mb-2" style='font-family: Outfit, "Space Grotesk", sans-serif; font-weight: 700;'>NET ZERO FLIGHT FOOTPRINT</div>
+              <p class="font-body-sm text-body-sm text-secondary">Water vapor is the sole combustive byproduct. Complete acoustic dampening and reduced infrared signature over legacy hydrocarbon plumes.</p>
+            </div>
+            <div class="mt-6 pt-4 p-2.5 rounded flex items-center justify-between font-label-micro text-label-micro text-outline" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.12);">
+              <span>THERMAL BLOOM REDUCTION</span>
+              <span class="text-primary font-bold">-42% IR SIG</span>
+            </div>
+          </div>
+
+          <div class="p-card-pad-lg rounded shadow-xl flex flex-col justify-between group transition-all" style="background: rgba(12, 14, 21, 0.2); backdrop-filter: blur(22px); border: 1px solid rgba(255, 255, 255, 0.18); box-shadow: rgba(0, 0, 0, 0.4) 0px 12px 36px;">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="font-label-micro text-label-micro text-outline uppercase">// SPEC 03_DENSITY</span>
+                <span class="w-2 h-2 rounded-full bg-primary"></span>
+              </div>
+              <div class="text-stat-value text-primary tracking-tight mb-2" style='font-family: Outfit, "Space Grotesk", sans-serif; font-weight: 800; letter-spacing: -0.03em;'>120 BAR</div>
+              <div class="text-headline-md text-on-surface uppercase mb-2" style='font-family: Outfit, "Space Grotesk", sans-serif; font-weight: 700;'>CRYOGENIC COMPRESSION TECH</div>
+              <p class="font-body-sm text-body-sm text-secondary">Compact carbon-composite cryogenic vessels deliver 3x volumetric energy density over conventional aviation batteries.</p>
+            </div>
+            <div class="mt-6 pt-4 p-2.5 rounded flex items-center justify-between font-label-micro text-label-micro text-outline" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.12);">
+              <span>TANK MATRIX: TYPE-IV FILAMENT</span>
+              <span class="text-primary font-bold">CERT: ISO 11119</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-surface-container-lowest/80 backdrop-blur-md p-6 rounded flex flex-col md:flex-row items-center justify-between gap-6" style="background: rgba(12, 14, 21, 0.22); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.18); box-shadow: rgba(0, 0, 0, 0.35) 0px 8px 30px;">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded bg-primary/20 flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-primary text-[28px]">valve</span>
+            </div>
+            <div>
+              <div class="font-headline-md text-headline-md text-on-surface font-bold uppercase">Theater Fuel Independence</div>
+              <div class="font-body-md text-body-md text-secondary">Harnesses localized solar, wind, and river runoff to produce military aviation fuel at forward operating sites.</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 shrink-0">
+            <span class="font-label-caps text-label-caps text-outline uppercase">LOGISTICS SAVINGS</span>
+            <span class="font-headline-md text-headline-md text-primary font-bold" style='font-family: Outfit, "Space Grotesk", sans-serif; font-weight: 800; letter-spacing: -0.02em;'>-78% VULNERABILITY</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: CLEAN CONTACT US SECTION -->
+    <section id="contact" class="relative w-full py-section-stack-md px-gutter-mobile md:px-grid-margin-tablet lg:px-grid-margin-desktop bg-surface-container-lowest border-t border-white/10">
+      <div class="max-w-7xl mx-auto">
+        <div class="contact-grid">
+
+          <!-- LEFT COLUMN -->
+          <section class="left-column">
+            
+            <!-- Pill Badge -->
+            <div class="contact-pill-badge">
+              <span class="badge-icon-wrap">
+                <span class="material-symbols-outlined text-[14px] text-primary">terminal</span>
+              </span>
+              <span class="badge-text font-label-caps uppercase text-primary">SYS: RFQ // DEF-SPEC-04</span>
+            </div>
+
+            <!-- Title & Subtitle -->
+            <h2 class="contact-title font-brand-machina">Get in touch</h2>
+            <p class="contact-subtitle">
+              Have technical questions or ready to transform your defense operations with Vajra AI autonomy and hybrid propulsion systems?
+            </p>
+
+            <!-- High-Tech Machine Unit Card -->
+            <div class="glass-panel rounded-xl overflow-hidden border border-white/15 relative group shadow-2xl">
+              <div class="relative h-56 w-full overflow-hidden">
+                <img src="vajra_defense_machine.jpg" alt="Vajra Defense Machine Unit" class="w-full h-full object-cover" />
+                <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent"></div>
+                <div class="absolute top-3 left-3 bg-surface-container-lowest/80 backdrop-blur-md px-2.5 py-1 rounded border border-primary/40 flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-primary"></span>
+                  <span class="font-label-micro text-primary uppercase">HARDWARE: VJR-TURBINE-MKIV</span>
+                </div>
+                <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between text-xs font-spec-code">
+                  <span class="text-on-surface bg-surface-container-lowest/80 px-2 py-1 rounded">CRYOGENIC PEM CORE</span>
+                  <span class="text-primary font-bold bg-surface-container-lowest/80 px-2 py-1 rounded">34,000 RPM</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Live Office Status Bar Widget (API Powered) -->
+            <div id="office-status-bar" class="office-status-bar glass-panel">
+              <div class="status-indicator">
+                <span class="pulse-dot"></span>
+                <span id="office-state-text">Mojave HQ: Checking status...</span>
+              </div>
+              <div class="weather-indicator" id="weather-text">
+                <span>🌡️ Loading Test Range Weather...</span>
+              </div>
+            </div>
+
+            <!-- Contact Cards Stack -->
+            <div class="contact-cards-stack">
+
+              <!-- Card 1: Email -->
+              <div class="info-card glass-panel" id="card-email" role="button" tabindex="0" title="Click to copy encrypted email">
+                <div class="card-left-group">
+                  <div class="card-icon-box">
+                    <span class="material-symbols-outlined text-[20px]">mail</span>
+                  </div>
+                  <div class="card-details">
+                    <span class="card-label font-label-caps text-on-surface uppercase">Email us (Encrypted)</span>
+                    <span class="card-value font-spec-code text-primary" id="val-email">vajra.defense@gmail.com</span>
+                  </div>
+                </div>
+                <button class="card-arrow-btn" aria-label="Copy Email">
+                  <span class="material-symbols-outlined text-[16px]">content_copy</span>
+                </button>
+              </div>
+
+              <!-- Card 2: Phone -->
+              <div class="info-card glass-panel" id="card-phone" role="button" tabindex="0" title="Click to copy telephone number">
+                <div class="card-left-group">
+                  <div class="card-icon-box">
+                    <span class="material-symbols-outlined text-[20px]">call</span>
+                  </div>
+                  <div class="card-details">
+                    <span class="card-label font-label-caps text-on-surface uppercase">Call us (Secure Line)</span>
+                    <span class="card-value font-spec-code text-primary" id="val-phone">+1 (800) 825-7233</span>
+                  </div>
+                </div>
+                <button class="card-arrow-btn" aria-label="Copy Phone">
+                  <span class="material-symbols-outlined text-[16px]">content_copy</span>
+                </button>
+              </div>
+
+              <!-- Card 3: Location -->
+              <div class="info-card glass-panel" id="card-location" role="button" tabindex="0" title="Click to view interactive proving grounds map">
+                <div class="card-left-group">
+                  <div class="card-icon-box">
+                    <span class="material-symbols-outlined text-[20px]">location_on</span>
+                  </div>
+                  <div class="card-details">
+                    <span class="card-label font-label-caps text-on-surface uppercase">Proving Grounds &amp; HQ</span>
+                    <span class="card-value font-spec-code text-secondary" id="val-location">Sector 9 Defense Complex, Mojave, CA</span>
+                  </div>
+                </div>
+                <button class="card-arrow-btn" aria-label="View Map">
+                  <span class="material-symbols-outlined text-[16px]">map</span>
+                </button>
+              </div>
+
+            </div>
+          </section>
+
+          <!-- RIGHT COLUMN: FORM -->
+          <section class="right-column">
+            <div class="form-glass-card glass-panel">
+              <form id="contact-form" class="contact-form" novalidate>
+                
+                <!-- Category/Topic Pills -->
+                <div class="form-topics-group">
+                  <label class="input-label-sm font-label-micro">Select Interest Core</label>
+                  <div class="topic-pills">
+                    <button type="button" class="topic-pill active" data-topic="TPE331 Turbine Core">TPE331 Turbine Core</button>
+                    <button type="button" class="topic-pill" data-topic="PEM Hydrogen Pack">PEM Hydrogen</button>
+                    <button type="button" class="topic-pill" data-topic="Autonomous Strike UAS">Autonomous UAS</button>
+                    <button type="button" class="topic-pill" data-topic="Complete Powerplant RFQ">Full RFQ</button>
+                  </div>
+                  <input type="hidden" id="selected-topic" name="topic" value="TPE331 Turbine Core" />
+                </div>
+
+                <!-- Name Input Field -->
+                <div class="input-group">
+                  <label for="input-name" class="floating-label font-label-caps">Official Entity / Name</label>
+                  <input 
+                    type="text" 
+                    id="input-name" 
+                    name="name" 
+                    class="form-input" 
+                    placeholder="e.g. Ministry of Defense / Defense Prime" 
+                    required 
+                    autocomplete="name"
+                  />
+                  <span class="input-error-msg" id="err-name">Please specify official entity name</span>
+                </div>
+
+                <!-- Email Input Field -->
+                <div class="input-group">
+                  <label for="input-email" class="floating-label font-label-caps">Official Email</label>
+                  <input 
+                    type="email" 
+                    id="input-email" 
+                    name="email" 
+                    class="form-input" 
+                    placeholder="official@defense.gov" 
+                    required 
+                    autocomplete="email"
+                  />
+                  <span class="input-error-msg" id="err-email">Please enter a valid defense email address</span>
+                </div>
+
+                <!-- Message Textarea Field -->
+                <div class="input-group">
+                  <label for="input-message" class="floating-label font-label-caps">Transmission Specification / Message</label>
+                  <textarea 
+                    id="input-message" 
+                    name="message" 
+                    class="form-input form-textarea" 
+                    placeholder="Detail your operational envelope, thrust targets, or telemetry requirements..." 
+                    rows="5" 
+                    required
+                  ></textarea>
+                  <div class="textarea-footer">
+                    <span class="input-error-msg" id="err-message">Message must be at least 10 characters</span>
+                    <span class="char-count font-spec-code"><span id="char-current">0</span>/1000</span>
+                  </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" id="submit-btn" class="btn-submit">
+                  <span class="btn-text">Submit</span>
+                  <span class="btn-spinner" style="display:none;" aria-hidden="true">
+                    <svg class="spinner-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                      <circle cx="12" cy="12" r="10" stroke-opacity="0.25"></circle>
+                      <path d="M12 2a10 10 0 0 1 10 10" stroke="#000"></path>
+                    </svg>
+                  </span>
+                </button>
+              </form>
+
+              <!-- Success Confirmation Box -->
+              <div id="form-success-box" class="form-success-box" style="display:none;">
+                <div class="success-icon-wrap">
+                  <span class="material-symbols-outlined text-[32px] text-primary">verified</span>
+                </div>
+                <h3 class="font-brand-machina">TRANSMISSION LOGGED</h3>
+                <p>Transmission verified and encrypted under ORCON-V protocol. A Vajra Defense technical representative will respond within 2 hours.</p>
+                <div class="payload-preview-btn-wrap">
+                  <button id="btn-view-api-response" class="btn-secondary-sm font-label-caps">Inspect Encrypted API Payload</button>
+                  <button id="btn-reset-form" class="btn-secondary-sm font-label-caps">Transmit Another RFQ</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<!-- Map Modal -->
+<div id="map-modal" class="modal-backdrop" style="display:none;">
+  <div class="modal-content glass-panel">
+    <div class="modal-header">
+      <div class="modal-title-group">
+        <span class="material-symbols-outlined text-primary">distance</span>
+        <h3 class="font-brand-machina">Mojave Proving Ground &amp; Sector 9 HQ</h3>
+      </div>
+      <button id="close-map-btn" class="modal-close-btn" aria-label="Close Map">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p class="map-location-sub font-spec-code">LAT 35.0110° N // LON 118.1740° W • Mojave Air &amp; Space Port Test Zone</p>
+      <div id="map-container" class="map-container"></div>
+    </div>
+  </div>
+</div>
+
+<!-- API Inspector Modal -->
+<div id="api-modal" class="modal-backdrop" style="display:none;">
+  <div class="modal-content glass-panel code-modal">
+    <div class="modal-header">
+      <div class="modal-title-group">
+        <span class="status-tag status-200">HTTP 200 OK</span>
+        <h3 class="font-brand-machina">API Request &amp; Response Telemetry</h3>
+      </div>
+      <button id="close-api-btn" class="modal-close-btn" aria-label="Close Inspector">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <pre><code id="api-json-content">// JSON telemetry...</code></pre>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+<!-- Footer -->
+<footer class="w-full bg-surface-container-lowest text-on-surface-variant mt-20">
+  <div class="w-full px-gutter-mobile md:px-grid-margin-tablet lg:px-grid-margin-desktop py-section-stack-md">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter-desktop mb-12">
+      <div class="space-y-4">
+        <div class="flex items-center gap-3">
+          <img alt="vajra-logo" class="h-7 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VqCStJiaMCacm_uXUNeRgK56TXKFXL6iCJ5qVbe4pcDVlUG5j5g0iEAS2zzhf7VWHRZlF6vsGtr014NXISmb0DTnz6abXpqkY-MTnwgJxs39epjoMLQH7FcYlDEXliFI5a8qnou-pP1z7Gi1TdlzOyjSAWRnYwYmT1F_Q0jFwfXUa0kPoQpmVWKJ-TGj9CK1UzLJyPDEiXV5Gccg7Y9d4CDVe2drWXH4AnpfeFSaGMxEX2ypSD8Ovdwqow2uDEI3DhtliaZLZLeyY"/>
+          <span class="font-headline-md text-body-md tracking-[0.16em] font-bold text-on-surface uppercase font-brand-machina">VAJRA DEFENSE</span>
+        </div>
+        <p class="font-body-sm text-body-sm text-on-surface-variant max-w-sm">Autonomous aerospace defense robotics and zero-emission hydrogen propulsion systems architected for next-generation sovereign resilience.</p>
+        <div class="font-label-micro text-label-micro text-outline uppercase">SYS ID // SEC-FLIGHT-0982-ALPHA</div>
+      </div>
+
+      <div class="space-y-2.5">
+        <div class="font-label-caps text-label-caps text-on-surface uppercase font-bold tracking-wider">Operational HQ</div>
+        <p class="font-body-sm text-body-sm text-on-surface-variant">Defense Propulsion Facility 04<br/>Aero-Defense Complex, Sector 9<br/>Bengaluru / Mojave Test Range</p>
+        <div class="font-spec-code text-spec-code text-primary pt-1">LAT 12.9716° N // LON 77.5946° E</div>
+      </div>
+
+      <div class="space-y-2.5">
+        <div class="font-label-caps text-label-caps text-on-surface uppercase font-bold tracking-wider">Direct Communications</div>
+        <p class="font-body-sm text-body-sm text-on-surface-variant">Secure Mission &amp; Procurement Inquiries:</p>
+        <a class="inline-block font-spec-code text-spec-code text-primary hover:text-primary-fixed transition-colors underline underline-offset-4" href="mailto:vajra.defense@gmail.com">vajra.defense@gmail.com</a>
+        <p class="font-label-micro text-label-micro text-outline uppercase pt-1">PGP FINGERPRINT: 4B8F 9021 AC77 EF12</p>
+      </div>
+
+      <div class="space-y-2.5">
+        <div class="font-label-caps text-label-caps text-on-surface uppercase font-bold tracking-wider">Regulatory Compliance</div>
+        <div class="inline-flex items-center px-2 py-1 bg-surface-container rounded gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+          <span class="font-label-caps text-label-caps text-on-surface font-semibold">ITAR COMPLIANT</span>
+        </div>
+        <p class="font-body-sm text-body-sm text-on-surface-variant">Hardware architectures &amp; telemetry pipelines subject to international traffic in arms regulations and sovereign defense protocol.</p>
+      </div>
+    </div>
+
+    <div class="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 font-label-micro text-label-micro text-outline uppercase">
+      <div>© 2025 VAJRA DEFENSE SYSTEMS INC. ALL RIGHTS RESERVED.</div>
+      <div class="flex items-center gap-6">
+        <span>SECURITY: LEVEL-5 ORCON</span>
+        <span>CLEARANCE: RESTRICTED</span>
+        <span>UTC TIMESTAMP: LIVE</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Scripts -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  // 1. Weather & Status API
+  const officeStateText = document.getElementById('office-state-text');
+  const weatherText = document.getElementById('weather-text');
+
+  function updateOfficeStatus() {
+    if (!officeStateText) return;
+    const options = { timeZone: 'America/Los_Angeles', hour: 'numeric', minute: '2-digit', hour12: true, weekday: 'short' };
+    const formatter = new Intl.DateTimeFormat([], options);
+    const pstTimeStr = formatter.format(new Date());
+
+    const laDate = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Los_Angeles' }));
+    const day = laDate.getDay();
+    const hour = laDate.getHours();
+    const isOpen = (day >= 1 && day <= 5) && (hour >= 8 && hour < 19);
+
+    if (isOpen) {
+      officeStateText.innerHTML = `Mojave Test Range: <span style="color:#7ad2ff; font-weight:600;">ACTIVE FLIGHT ENVELOPE</span> • ${pstTimeStr} PST`;
+    } else {
+      officeStateText.innerHTML = `Mojave Test Range: <span style="color:#ffba66; font-weight:600;">STANDBY</span> • ${pstTimeStr} PST`;
+    }
+  }
+
+  async function fetchMojaveWeather() {
+    if (!weatherText) return;
+    try {
+      const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=35.0110&longitude=-118.1740&current_weather=true');
+      if (!res.ok) throw new Error('Weather offline');
+      const data = await res.json();
+      const tempC = data.current_weather.temperature;
+      const tempF = Math.round((tempC * 9 / 5) + 32);
+      weatherText.innerHTML = `<span>🚀 Mojave Range: ${tempF}°F (${tempC}°C) Clear Winds</span>`;
+    } catch (e) {
+      weatherText.innerHTML = `<span>🌵 Mojave Air & Space Port</span>`;
+    }
+  }
+
+  updateOfficeStatus();
+  fetchMojaveWeather();
+
+  // 2. Toast Notifications & Copy
+  const toastContainer = document.getElementById('toast-container');
+
+  function showToast(message, icon = '✓') {
+    if (!toastContainer) return;
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.innerHTML = `<span style="color:#7ad2ff; font-weight:bold;">${icon}</span><span>${message}</span>`;
+    toastContainer.appendChild(toast);
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateY(10px)';
+      toast.style.transition = 'all 0.3s ease';
+      setTimeout(() => toast.remove(), 300);
+    }, 3200);
+  }
+
+  const cardEmail = document.getElementById('card-email');
+  if (cardEmail) {
+    cardEmail.addEventListener('click', () => {
+      const email = document.getElementById('val-email').innerText;
+      navigator.clipboard.writeText(email).then(() => {
+        showToast(`Copied encrypted email (${email}) to clipboard!`);
+      }).catch(() => {
+        window.location.href = `mailto:${email}`;
+      });
+    });
+  }
+
+  const cardPhone = document.getElementById('card-phone');
+  if (cardPhone) {
+    cardPhone.addEventListener('click', () => {
+      const phone = document.getElementById('val-phone').innerText;
+      navigator.clipboard.writeText(phone).then(() => {
+        showToast(`Copied telephone line (${phone}) to clipboard!`);
+      }).catch(() => {
+        window.location.href = `tel:${phone.replace(/\D/g, '')}`;
+      });
+    });
+  }
+
+  // 3. Leaflet Map Modal
+  const cardLocation = document.getElementById('card-location');
+  const mapModal = document.getElementById('map-modal');
+  const closeMapBtn = document.getElementById('close-map-btn');
+  let leafletMap = null;
+
+  if (cardLocation && mapModal) {
+    cardLocation.addEventListener('click', () => {
+      mapModal.style.display = 'flex';
+      if (!leafletMap) {
+        setTimeout(() => {
+          const coords = [35.0110, -118.1740];
+          leafletMap = L.map('map-container').setView(coords, 14);
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+          }).addTo(leafletMap);
+          const marker = L.marker(coords).addTo(leafletMap);
+          marker.bindPopup(`<b>Vajra Defense HQ</b><br>Mojave Air & Space Port Test Range`).openPopup();
+        }, 100);
+      } else {
+        setTimeout(() => leafletMap.invalidateSize(), 100);
+      }
+    });
+
+    if (closeMapBtn) {
+      closeMapBtn.addEventListener('click', () => {
+        mapModal.style.display = 'none';
+      });
+    }
+
+    mapModal.addEventListener('click', (e) => {
+      if (e.target === mapModal) mapModal.style.display = 'none';
+    });
+  }
+
+  // 4. Contact Form Processing
+  const contactForm = document.getElementById('contact-form');
+  if (contactForm) {
+    const topicPills = document.querySelectorAll('.topic-pill');
+    const selectedTopicInput = document.getElementById('selected-topic');
+    const inputName = document.getElementById('input-name');
+    const inputEmail = document.getElementById('input-email');
+    const inputMessage = document.getElementById('input-message');
+    const submitBtn = document.getElementById('submit-btn');
+    const btnText = submitBtn.querySelector('.btn-text');
+    const btnSpinner = submitBtn.querySelector('.btn-spinner');
+    const formSuccessBox = document.getElementById('form-success-box');
+    const btnViewApiResponse = document.getElementById('btn-view-api-response');
+    const btnResetForm = document.getElementById('btn-reset-form');
+    const apiModal = document.getElementById('api-modal');
+    const closeApiBtn = document.getElementById('close-api-btn');
+    const apiJsonContent = document.getElementById('api-json-content');
+
+    let lastApiPayloadResponse = null;
+
+    topicPills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        topicPills.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        selectedTopicInput.value = pill.dataset.topic;
+      });
+    });
+
+    [inputName, inputEmail, inputMessage].forEach(input => {
+      if (input) {
+        input.addEventListener('input', () => {
+          input.parentElement.classList.remove('invalid');
+        });
+      }
+    });
+
+    function validateForm() {
+      let isValid = true;
+      if (!inputName.value.trim()) {
+        inputName.parentElement.classList.add('invalid');
+        isValid = false;
+      }
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(inputEmail.value.trim())) {
+        inputEmail.parentElement.classList.add('invalid');
+        isValid = false;
+      }
+      if (inputMessage.value.trim().length < 10) {
+        inputMessage.parentElement.classList.add('invalid');
+        isValid = false;
+      }
+      return isValid;
+    }
+
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!validateForm()) return;
+
+      submitBtn.disabled = true;
+      btnText.innerText = 'TRANSMITTING...';
+      btnSpinner.style.display = 'inline-block';
+
+      const payload = {
+        entity: inputName.value.trim(),
+        officialEmail: inputEmail.value.trim(),
+        interestCore: selectedTopicInput.value,
+        specification: inputMessage.value.trim(),
+        timestamp: new Date().toISOString(),
+        securityLevel: 'ORCON-V CLEARED',
+        facilityTarget: 'Mojave Proving Ground & Sector 9 HQ'
+      };
+
+      try {
+        const response = await fetch('https://httpbin.org/post', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (response.ok) {
+          const json = await response.json();
+          lastApiPayloadResponse = {
+            status: 200,
+            statusText: 'ORCON-V OK',
+            endpoint: 'https://httpbin.org/post',
+            transmissionData: json.json || payload,
+            serverTimestamp: new Date().toISOString()
+          };
+        } else {
+          throw new Error('HTTP ' + response.status);
+        }
+      } catch (err) {
+        lastApiPayloadResponse = {
+          status: 200,
+          statusText: 'Simulated Defense RFQ Transmission',
+          endpoint: '/api/v1/defense/rfq',
+          transmissionData: payload,
+          serverTimestamp: new Date().toISOString()
+        };
+      }
+
+      setTimeout(() => {
+        submitBtn.disabled = false;
+        btnText.innerText = 'Submit';
+        btnSpinner.style.display = 'none';
+        contactForm.style.display = 'none';
+        formSuccessBox.style.display = 'flex';
+        showToast('RFQ Transmission encrypted & verified!', '⚡');
+      }, 700);
+    });
+
+    btnResetForm.addEventListener('click', () => {
+      contactForm.reset();
+      formSuccessBox.style.display = 'none';
+      contactForm.style.display = 'flex';
+    });
+
+    btnViewApiResponse.addEventListener('click', () => {
+      apiJsonContent.innerText = JSON.stringify(lastApiPayloadResponse, null, 2);
+      apiModal.style.display = 'flex';
+    });
+
+    if (closeApiBtn) {
+      closeApiBtn.addEventListener('click', () => {
+        apiModal.style.display = 'none';
+      });
+    }
+
+    if (apiModal) {
+      apiModal.addEventListener('click', (e) => {
+        if (e.target === apiModal) apiModal.style.display = 'none';
+      });
+    }
+  }
+
+});
+</script>
+</body>
+</html>
