@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Sharabha | Partnerships &amp; Collaboration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="site-shell">
+    <div class="contact-page-header">
+      <header class="site-header">
+        <a class="brand brand--light" href="index.html" aria-label="Sharabha home">
+          <span class="brand-mark">S</span>
+          <span>SHARABHA</span>
+        </a>
+        <nav class="desktop-nav desktop-nav--light" aria-label="Main navigation">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="capabilities.html">Capabilities</a>
+          <a href="contact.html" class="current">Contact</a>
+        </nav>
+        <a class="header-cta header-cta--light" href="contact.html">Partner With Us</a>
+        <button class="menu-toggle menu-toggle--light" id="menuToggle" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </header>
+      <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="capabilities.html">Capabilities</a>
+        <a href="contact.html">Contact</a>
+        <a href="contact.html">Partner With Us</a>
+      </nav>
+
+      <!-- DARK CONTACT HERO -->
+      <section class="contact-hero">
+        <div class="contact-hero-inner">
+          <p class="eyebrow">PARTNERSHIPS &bull; COLLABORATION</p>
+          <h1>Let's build the future of <span>Indian technology together.</span></h1>
+          <p class="contact-hero-description">
+            Sharabha is developing projects across propulsion, hydrogen, energy, defense, and transport — backed by Pune's manufacturing network and actively engaging with research institutions, investors, and defense organizations.
+          </p>
+        </div>
+      </section>
+    </div>
+
+    <main>
+      <!-- CONTACT BODY (FORM + DETAILS) -->
+      <section class="contact-body section">
+        <div class="contact-grid">
+          <!-- INFO COLUMN -->
+          <div class="contact-info-col">
+            <p class="eyebrow">DIRECT CONTACT</p>
+            <h2>Connect with our team.</h2>
+            <p>
+              Whether you are exploring a manufacturing alliance, research collaboration, supply agreement, or investment opportunity — our engineering leadership personally reviews every inquiry.
+            </p>
+            <div class="contact-details">
+              <div class="contact-detail-item">
+                <span class="detail-label">EMAIL</span>
+                <div class="detail-value">
+                  <a href="mailto:sharabha.defense@77gmail.com">sharabha.defense@77gmail.com</a>
+                </div>
+              </div>
+              <div class="contact-detail-item">
+                <span class="detail-label">PHONE</span>
+                <div class="detail-value">
+                  <a href="tel:+918446590513">+91 84465 90513</a>
+                </div>
+              </div>
+              <div class="contact-detail-item">
+                <span class="detail-label">ADDRESS</span>
+                <div class="detail-value">
+                  Keshav Nagar, Mundhwa<br>
+                  Pune, Maharashtra 411036<br>
+                  India
+                </div>
+              </div>
+              <div class="contact-detail-item">
+                <span class="detail-label">LINKEDIN</span>
+                <div class="detail-value">
+                  <a href="#" target="_blank" rel="noopener">Sharabha Defense &amp; Propulsion</a>
+                </div>
+              </div>
+              <div class="contact-detail-item">
+                <span class="detail-label">INSTAGRAM</span>
+                <div class="detail-value">
+                  <a href="#" target="_blank" rel="noopener">@sharabha.defense.77</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- FORM COLUMN -->
+          <div class="contact-form-col">
+            <h3>Send Us a Message</h3>
+            <form id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" onsubmit="event.preventDefault(); alert('Thank you for reaching out to Sharabha. Your message has been received.'); this.reset();">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="name">Your Name *</label>
+                  <input type="text" id="name" name="name" placeholder="Name" required />
+                </div>
+                <div class="form-group">
+                  <label for="organization">Organization *</label>
+                  <input type="text" id="organization" name="organization" placeholder="Company or Institution" required />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="email">Email Address *</label>
+                  <input type="email" id="email" name="email" placeholder="name@domain.com" required />
+                </div>
+                <div class="form-group">
+                  <label for="phone">Phone Number</label>
+                  <input type="tel" id="phone" name="phone" placeholder="+91 98765 43210" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="interest">Area of Interest *</label>
+                <select id="interest" name="interest" required>
+                  <option value="" disabled selected>Select an area of interest...</option>
+                  <option value="Jet & Turboprop Propulsion">Jet &amp; Turboprop Propulsion</option>
+                  <option value="Green Hydrogen Production">Green Hydrogen Production</option>
+                  <option value="Electricity & Power Systems">Electricity &amp; Power Systems</option>
+                  <option value="Defense Applications">Defense Applications</option>
+                  <option value="Heavy-Duty Transport">Heavy-Duty Transport</option>
+                  <option value="Manufacturing Partnership">Manufacturing Partnership (Pune Network)</option>
+                  <option value="Research & Academic Collaboration">Research &amp; Academic Collaboration</option>
+                  <option value="Investment">Investment &amp; Strategic Sourcing</option>
+                  <option value="Other">Other Inquiry</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="message">Message *</label>
+                <textarea id="message" name="message" placeholder="Please describe your interest, project, or partnership proposal..." required></textarea>
+              </div>
+              <button type="submit" class="form-submit-btn">
+                Send Inquiry <span>&#x2197;</span>
+              </button>
+              <p class="form-note">
+                We respect your confidentiality. Technical discussions can be conducted under NDA upon request.
+              </p>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- AUDIENCE SECTION -->
+      <section class="audience-section">
+        <div class="audience-heading">
+          <p class="eyebrow">STRATEGIC ENGAGEMENT</p>
+          <h2>Who should reach out.</h2>
+        </div>
+        <div class="audience-grid">
+          <article class="audience-card">
+            <div class="audience-icon">01</div>
+            <h4>Manufacturing Partners</h4>
+            <p>Enterprises specializing in precision machining, aerospace materials, titanium/nickel alloys, and certified industrial fabrication.</p>
+          </article>
+          <article class="audience-card">
+            <div class="audience-icon">02</div>
+            <h4>Research Institutions</h4>
+            <p>Universities, national labs, and academic groups collaborating on hydrogen combustion, PEM catalysts, and thermodynamic simulation.</p>
+          </article>
+          <article class="audience-card">
+            <div class="audience-icon">03</div>
+            <h4>Defense Organizations</h4>
+            <p>Defense PSUs, armed service procurement boards, and strategic stakeholders seeking indigenous propulsion and sovereign air defense systems.</p>
+          </article>
+          <article class="audience-card">
+            <div class="audience-icon">04</div>
+            <h4>Strategic Investors</h4>
+            <p>Institutional and deep-tech venture partners seeking foundational exposure to sovereign aerospace, propulsion, and clean-energy infrastructure.</p>
+          </article>
+          <article class="audience-card">
+            <div class="audience-icon">05</div>
+            <h4>Component Suppliers</h4>
+            <p>Vendors in PEM membrane electrode assemblies, high-temperature sensors, power electronics, and aerospace hardware.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <a class="brand brand--light" href="index.html">
+            <span class="brand-mark">S</span>
+            <span>SHARABHA</span>
+          </a>
+          <p>Indigenous propulsion, clean energy, and advanced engineering systems for a stronger future.</p>
+          <div class="social-links">
+            <a href="#" aria-label="LinkedIn">in</a>
+            <a href="#" aria-label="Instagram">ig</a>
+          </div>
+        </div>
+        <div class="footer-column">
+          <h4>Company</h4>
+          <a href="about.html">About</a>
+          <a href="about.html#process">Our Process</a>
+          <a href="contact.html">Contact</a>
+          <a href="contact.html">Partnerships</a>
+        </div>
+        <div class="footer-column">
+          <h4>Capabilities</h4>
+          <a href="capabilities.html#propulsion">Propulsion</a>
+          <a href="capabilities.html#hydrogen">Hydrogen</a>
+          <a href="capabilities.html#power">Energy Systems</a>
+          <a href="capabilities.html#defense">Defense</a>
+          <a href="capabilities.html#transport">Transport</a>
+        </div>
+        <div class="footer-column">
+          <h4>Connect</h4>
+          <a href="mailto:sharabha.defense@77gmail.com">sharabha.defense@77gmail.com</a>
+          <a href="tel:+918446590513">+91 84465 90513</a>
+          <span>Keshav Nagar, Mundhwa</span>
+          <span>Pune, Maharashtra, India</span>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; <span id="year"></span> Sharabha. All rights reserved.</span>
+        <span>Strength from every direction.</span>
+      </div>
+    </footer>
+  </div>
+
+  <div class="transition-overlay" id="transitionOverlay" aria-hidden="true">
+    <div class="transition-bar"></div><div class="transition-bar"></div>
+    <div class="transition-bar"></div><div class="transition-bar"></div>
+    <div class="transition-bar"></div><div class="transition-bar"></div>
+    <div class="transition-bar"></div><div class="transition-bar"></div>
+    <div class="transition-bar"></div><div class="transition-bar"></div>
+  </div>
+  <script src="transitions.js"></script>
+</body>
+</html>
